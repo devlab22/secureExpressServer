@@ -1,4 +1,5 @@
 Secure server OpenSSL
+create directory cert with files key.pem and cert.pem
 
 1. Generate a private key
 
