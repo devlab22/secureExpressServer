@@ -45,7 +45,8 @@ app.use('/*', (req, res, next) => {
     res.sendFile(path.join(dirname, 'build', 'index.html'));
 })
 
-https
+if(config.SECURE){
+    https
     .createServer(
         {
             key: fs.readFileSync(path.join(dirname, 'cert', 'key.pem')),
@@ -54,5 +55,11 @@ https
         app
     )
     .listen(PORT, HOST, (req, res) => {
-        console.log(`server is runing at ${HOST}:${PORT}`)
+        console.log(`SSL frontend server is runing at https://${HOST}:${PORT}`)
     })
+}
+else{
+    app.listen(PORT, HOST, (req, res) => {
+        console.log(`frontend server is runing at http://${HOST}:${PORT}`)
+    })
+}
