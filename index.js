@@ -20,12 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var config = {}
 
-var corsOptions = {
-    "origin": "*",
-    "Access-Control-Request-Method": "POST,GET,PUT,DELETE,OPTIONS",
-    "Access-Control-Allow-Headers": "X-Requested-With,Content-Type",
-    "optionsSuccessStatus": 200
-};
+
 
 try {
     const rawdata = fs.readFileSync(path.join(dirname, 'config.json'));
@@ -36,21 +31,32 @@ catch (e) {
     console.log('config file ->', e.message);
 }
 
+var corsOptions = {
+    "origin": config.ORIGIN || "*",
+    "Access-Control-Request-Method": "POST,GET,PUT,DELETE,OPTIONS",
+    "Access-Control-Allow-Headers": "X-Requested-With,Content-Type",
+    "optionsSuccessStatus": 200
+};
+
 const PORT = config.PORT || 8000;
 const HOST = config.HOST || 'localhost';
-
-app.use(cors(corsOptions))
+const SECURE = config.SECURE || false;
+const keyFilename = config.KEY || '';
+const certFilename = config.CERT || '';
+ 
+app.use(cors(corsOptions));
 
 app.use('/*', (req, res, next) => {
     res.sendFile(path.join(dirname, 'build', 'index.html'));
 })
 
-if(config.SECURE){
+if(SECURE){
     https
     .createServer(
         {
-            key: fs.readFileSync(path.join(dirname, 'cert', 'key.pem')),
-            cert: fs.readFileSync(path.join(dirname, 'cert', 'cert.pem'))
+            key: fs.readFileSync(path.join(dirname, 'cert', keyFilename)),
+            cert: fs.readFileSync(path.join(dirname, 'cert', certFilename)),
+            passphrase: 'server'
         },
         app
     )

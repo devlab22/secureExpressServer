@@ -3,12 +3,12 @@ create directory cert with files key.pem and cert.pem
 
 1. Generate a private key
 
-openssl genrsa -out key.pem
+openssl genrsa -out key.pem -aes256 2048
 
 2. Create CSR (certificate signing request) using private key
 
-openssl req -new -key key.pem -out csr.pem
+openssl req -new -key key.pem -out csr.pem -config config.ini
 
 3. Generate the SSL certification from CSR
 
-openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem
+openssl x509 -sha256 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem
