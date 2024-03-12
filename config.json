@@ -1,8 +1,9 @@
 {
     "PORT": 8000,
-    "HOST": "192.168.178.85",
+    "HOST": "192.168.143.254",
     "SECURE": true,
     "KEY": "key.pem",
-    "CERT": "cert.cer",
+    "CERT": "cert.pem",
+    "PASSPHRASE": "server",
     "ORIGIN": "*"
 }

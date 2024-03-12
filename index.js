@@ -43,28 +43,29 @@ const HOST = config.HOST || 'localhost';
 const SECURE = config.SECURE || false;
 const keyFilename = config.KEY || '';
 const certFilename = config.CERT || '';
- 
+const passphrase = config.PASSPHRASE || '';
+
 app.use(cors(corsOptions));
 
 app.use('/*', (req, res, next) => {
     res.sendFile(path.join(dirname, 'build', 'index.html'));
 })
 
-if(SECURE){
+if (SECURE) {
     https
-    .createServer(
-        {
-            key: fs.readFileSync(path.join(dirname, 'cert', keyFilename)),
-            cert: fs.readFileSync(path.join(dirname, 'cert', certFilename)),
-            passphrase: 'server'
-        },
-        app
-    )
-    .listen(PORT, HOST, (req, res) => {
-        console.log(`SSL frontend server is runing at https://${HOST}:${PORT}`)
-    })
+        .createServer(
+            {
+                key: fs.readFileSync(path.join(dirname, 'cert', keyFilename)),
+                cert: fs.readFileSync(path.join(dirname, 'cert', certFilename)),
+                passphrase: passphrase
+            },
+            app
+        )
+        .listen(PORT, HOST, (req, res) => {
+            console.log(`SSL frontend server is runing at https://${HOST}:${PORT}`)
+        })
 }
-else{
+else {
     app.listen(PORT, HOST, (req, res) => {
         console.log(`frontend server is runing at http://${HOST}:${PORT}`)
     })
