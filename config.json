@@ -3,7 +3,7 @@
     "HOST": "192.168.178.201",
     "SECURE": true,
     "KEY": "key.pem",
-    "CERT": "cert.pem",
+    "CERT": "cert.cer",
     "PASSPHRASE": "server",
     "ORIGIN": "*"
 }
