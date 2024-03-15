@@ -1,6 +1,6 @@
 {
     "PORT": 8000,
-    "HOST": "192.168.143.254",
+    "HOST": "192.168.178.85",
     "SECURE": true,
     "KEY": "key.pem",
     "CERT": "cert.cer",
