@@ -10,7 +10,8 @@ const bodyParser = require('body-parser');
 
 const app = express()
 
-app.use(helmet());
+//app.use(helmet());
+
 app.use(cookieparser());
 app.use(express.static(path.join(dirname, 'build')));
 app.use(express.static(path.join(dirname, 'cert')));
@@ -33,6 +34,7 @@ catch (e) {
 
 var corsOptions = {
     "origin": config.ORIGIN || "*",
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Request-Method": "POST,GET,PUT,DELETE,OPTIONS",
     "Access-Control-Allow-Headers": "X-Requested-With,Content-Type",
     "optionsSuccessStatus": 200
@@ -44,6 +46,17 @@ const SECURE = config.SECURE || false;
 const keyFilename = config.KEY || '';
 const certFilename = config.CERT || '';
 const passphrase = config.PASSPHRASE || '';
+const connect = config.CONNECT 
+
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'self'"],
+        scriptSrcElem: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        connectSrc: [connect],
+        imgSrc: ["'self'", '*.unsplash.com', '*.google.com']
+    }
+}));
 
 app.use(cors(corsOptions));
 
